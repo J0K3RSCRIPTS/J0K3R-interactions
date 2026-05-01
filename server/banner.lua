@@ -1,0 +1,5 @@
+print('+----------------------------------------------+')
+print('|     J0K3R-interactions by J0K3R-Scripts      |')
+print('|     Discord: https://discord.gg/DH8tW6vSxV   |')
+print('|     Free script, contributions welcome       |')
+print('+----------------------------------------------+')
