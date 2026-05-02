@@ -1,6 +1,7 @@
-💬 Join our Discord: https://discord.gg/DH8tW6vSxV
-
 🤠 J0K3R-interactions
+Credits & Inspiration:
+This project was inspired by kibook/redm-interactions. A huge thanks to Kibook for the great groundwork and inspiration!
+
 A free, highly configurable interaction script for RedM! Let your players sit on chairs 🪑, lie in beds 🛏️, take relaxing baths 🛁, and even play the piano 🎹. Everything from the menu to the language and keybinds is fully customizable via config.lua.
 
 ✨ Features
@@ -22,8 +23,6 @@ A free, highly configurable interaction script for RedM! Let your players sit on
 
 📥 Installation
 Drop the J0K3R-interactions folder into your server's resources directory.
-
-Make sure the uiprompt resource is started before this script.
 
 Add ensure J0K3R-interactions to your server.cfg.
 
@@ -47,7 +46,9 @@ By default, the menu displays a logo above the title. You can easily customize t
 
 Replace the image: Swap out ui/logo.png with your own file (a PNG with a transparent background works best). Square images render perfectly because the width and height scale together.
 
-Advanced Tweaks: * Change the path by pointing Config.Theme.logoUrl to a different filename inside the ui/ folder.
+Advanced Tweaks:
+
+Change the path by pointing Config.Theme.logoUrl to a different filename inside the ui/ folder.
 
 Adjust the size by editing Config.Theme.logoSize (values like '6vw' or '10vw' work great).
 
