@@ -19,8 +19,6 @@ A free, highly configurable interaction script for RedM! Let your players sit on
 
 ⌨️ Dynamic Prompts: On-screen prompts powered by uiprompt with a configurable key hash.
 
-⚡ Optimized Performance: Features an adaptive client thread that idles when nothing is happening.
-
 📥 Installation
 Drop the J0K3R-interactions folder into your server's resources directory.
 
