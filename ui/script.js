@@ -108,7 +108,11 @@
         for (let i = 0; i < items.length; i++) {
             items[i].classList.toggle('selected', i === state.selectedIndex);
         }
-        notifyMarker(items[state.selectedIndex]);
+        const current = items[state.selectedIndex];
+        if (current && typeof current.scrollIntoView === 'function') {
+            current.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+        notifyMarker(current);
     }
 
     function renderPicker(payload) {
