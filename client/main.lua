@@ -58,6 +58,44 @@ local function PlayAnimation(ped, anim)
     RemoveAnimDict(anim.dict)
 end
 
+local ScenarioProps = {
+    PROP_HUMAN_SEAT_BENCH_FIDDLE         = { `p_violin01x`, `p_violinBow01x` },
+    PROP_HUMAN_SEAT_BENCH_CONCERTINA     = { `p_concertina01x` },
+    PROP_HUMAN_SEAT_BENCH_JAW_HARP       = { `p_jawharp01x` },
+    PROP_HUMAN_SEAT_BENCH_MANDOLIN       = { `p_mandolin01x` },
+    PROP_HUMAN_SEAT_CHAIR_BANJO          = { `p_banjo01x` },
+    PROP_HUMAN_SEAT_CHAIR_GUITAR         = { `p_guitarAcoustic01x` },
+    PROP_HUMAN_SEAT_CHAIR_CIGAR          = { `p_cigar01x`, `p_cigar02x` },
+    PROP_HUMAN_SEAT_CHAIR_KNITTING       = { `p_knittingNeedles01x`, `p_knittingYarn01x` },
+    PROP_HUMAN_SEAT_CHAIR_KNIFE_BADASS   = { `p_knife01x` },
+    PROP_HUMAN_SEAT_CHAIR_CLEAN_RIFLE    = { `p_rifle01x` },
+    PROP_HUMAN_SEAT_CHAIR_CLEAN_SADDLE   = { `p_saddle01x` },
+    PROP_HUMAN_SEAT_CHAIR_READING        = { `p_book01x`, `p_book02x` },
+    PROP_HUMAN_SEAT_CHAIR_TABLE_DRINKING = { `p_whiskeybottle01x`, `p_glassWhiskey01x` },
+    MP_LOBBY_PROP_HUMAN_SEAT_BENCH_PORCH_DRINKING = { `p_whiskeybottle01x`, `p_glassWhiskey01x` },
+    MP_LOBBY_PROP_HUMAN_SEAT_BENCH_PORCH_SMOKING  = { `p_cigarette01x` },
+    MP_LOBBY_PROP_HUMAN_SEAT_CHAIR_KNIFE_BADASS   = { `p_knife01x` },
+    MP_LOBBY_PROP_HUMAN_SEAT_CHAIR_WHITTLE        = { `p_knife01x`, `p_woodCarving01x` },
+}
+
+local function CleanupScenarioProps(scenarioName)
+    if not scenarioName then return end
+    local props = ScenarioProps[scenarioName]
+    if not props then return end
+
+    local ped = PlayerPedId()
+    local pedCoords = GetEntityCoords(ped)
+
+    for i = 1, #props do
+        local hash = props[i]
+        local found = GetClosestObjectOfType(pedCoords.x, pedCoords.y, pedCoords.z, 2.5, hash, false, true, true)
+        if found ~= 0 and DoesEntityExist(found) then
+            SetEntityAsMissionEntity(found, false, false)
+            DeleteObject(found)
+        end
+    end
+end
+
 local function StartInteractionAtCoords(interaction)
     local x, y, z, h = interaction.x, interaction.y, interaction.z, interaction.heading
     local ped = PlayerPedId()
@@ -66,7 +104,11 @@ local function StartInteractionAtCoords(interaction)
         StartingCoords = GetEntityCoords(ped)
     end
 
+    local previousScenario = CurrentInteraction and CurrentInteraction.scenario
+
     ClearPedTasksImmediately(ped)
+    Citizen.InvokeNative(0x4899CB088EDF59B8, ped)
+    CleanupScenarioProps(previousScenario)
     FreezeEntityPosition(ped, true)
 
     if interaction.scenario then
@@ -104,10 +146,13 @@ local function StartInteractionAtObject(interaction)
 end
 
 local function StopInteraction()
+    local previousScenario = CurrentInteraction and CurrentInteraction.scenario
     CurrentInteraction = nil
     local ped = PlayerPedId()
 
     ClearPedTasksImmediately(ped)
+    Citizen.InvokeNative(0x4899CB088EDF59B8, ped)
+    CleanupScenarioProps(previousScenario)
     FreezeEntityPosition(ped, false)
     Citizen.Wait(100)
 
